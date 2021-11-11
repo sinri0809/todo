@@ -1,0 +1,24 @@
+.checkbox{
+  border: none;
+  background-color: slategray;
+}
+.input-group-text{
+  background-color: white;
+  border: none;
+}
+.list-group{
+  height: 22rem;
+  .delete:hover,
+  .delete:focus{
+    background: red;
+  }
+}
+nav{
+  .page-link{
+    color: dimgrey;
+  }
+  .page-link:focus{
+    color: white;
+    background: dodgerblue;
+  }
+}
