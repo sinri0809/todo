@@ -1,6 +1,15 @@
-.checkbox{
-  border: none;
-  background-color: slategray;
+.todolist{
+  .checkbox{
+    border: none;
+    background-color: slategray;
+  }
+  .btn{
+    font-size: 1.4rem;
+  }
+
+}
+.completed{
+  font-style: italic;
 }
 .input-group-text{
   background-color: white;

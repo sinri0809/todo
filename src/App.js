@@ -7,17 +7,19 @@ import { Link, Route, Switch } from 'react-router-dom';
 import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
 import Pagination from './components/Pagination';
+import Detail from './components/Detail';
 import './style.scss';
 import axios from 'axios';
 
 const url = "http://localhost:4000/todo";
+
 function App() {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [curPage, setCurPage] = useState(1);
-  const [todosPerPage, setTodosPerPage] = useState(5);
+  const [todosPerPage, setTodosPerPage] = useState(4);
   // todos data 가져오기
-  console.log(todos)
+  // console.log(todos)
 
   useEffect(() => {
     try{
@@ -40,8 +42,8 @@ function App() {
     return ;
   }, []);
   
-  const indexOfLastTodos = curPage * todosPerPage; // 1 * 3 = 3
-  const indexOfFirstTodos = indexOfLastTodos - todosPerPage; // 3 - 3 = 0
+  const indexOfLastTodos = curPage * todosPerPage; // 1 * 4 = 4
+  const indexOfFirstTodos = indexOfLastTodos - todosPerPage; // 4 - 4 = 0
   const currentTodos = todos.slice(indexOfFirstTodos, indexOfLastTodos); 
   const paginate = (pageNumber) => setCurPage(pageNumber);
 
@@ -65,7 +67,7 @@ function App() {
             todos={todos} 
             setTodos={setTodos}
           />
-          <TodoList url={url} todos={currentTodos} loading={loading}></TodoList>
+          <TodoList url={url} currentTodos={currentTodos} loading={loading} todos={todos}></TodoList>
           <Pagination 
             perPage={todosPerPage} 
             totalPage={todos.length} 
@@ -73,8 +75,8 @@ function App() {
           />
         </Route>
 
-        <Route path='/detail'>
-          <h5>todo 수정</h5>
+        <Route path='/detail/'>
+          <Detail todos={todos} />
         </Route>
 
       </Switch>
