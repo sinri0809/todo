@@ -24,8 +24,10 @@ const AddTodo = ({url, todos, setTodos}) => {
 
     <Button
       onClick={(e) => {
-        // e.preventDefault();
-        console.log('clicked')
+        e.preventDefault();
+        const newTodo = makeTodo(nextIndex, inputNow);
+        postJSON(url, newTodo)
+        setTodos(todos.concat(newTodo))
       }}
     >
       +
@@ -43,15 +45,15 @@ const makeTodo = (next_index=0, todo='무제') => {
     date : ''
   };
   input.date = `${today.getFullYear()}-${today.getMonth()}-${today.getDay()}`;
+  console.log(input.date);
   return input;
 }
 function postJSON(url, newTodo){
   axios.post(url, newTodo)
   .then((res) => {
-    console.log("succeed to post");
+    return 1;
   })
   .catch((err) => {
-    console.log("failed")
   })
 
 }

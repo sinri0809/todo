@@ -10,6 +10,9 @@
 }
 .completed{
   font-style: italic;
+  text-decoration: line-through;
+  color: gray;
+  user-select: none;
 }
 .input-group-text{
   background-color: white;

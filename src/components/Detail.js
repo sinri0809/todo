@@ -9,7 +9,9 @@ const Detail = ({todos}) => {
   let history = useHistory();
   // index 뽑아내기 
   // console.log(history.location.pathname.split('/').pop());
-  const order = history.location.pathname.split('/').pop();
+  let order = history.location.pathname.split('/').pop();
+  order = parseInt(order);
+
   const todoDetail = todos[order];
 
   return(

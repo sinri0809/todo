@@ -8,19 +8,19 @@ import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
 import Pagination from './components/Pagination';
 import Detail from './components/Detail';
+import Popup from './components/Popup';
 import './style.scss';
 import axios from 'axios';
 
 const url = "http://localhost:4000/todo";
-
 function App() {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [curPage, setCurPage] = useState(1);
-  const [todosPerPage, setTodosPerPage] = useState(4);
-  // todos data 가져오기
-  // console.log(todos)
-
+  // const [todosPerPage, setTodosPerPage] = useState(4);
+  const todosPerPage = 4;
+  const [popup, setPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
   useEffect(() => {
     try{
       const fetchTodos = async () => {
@@ -31,7 +31,6 @@ function App() {
           // javascript array[-1] 안되나??
         })
         setLoading(false);
-
       }
       fetchTodos();
       // 현재 pagination 만들기 이거는 복습 많이 해야뎀
@@ -41,22 +40,69 @@ function App() {
     }
     return ;
   }, []);
-  
+
+  // (curPage-1)*todosPerPage + index  => 진짜 index가져옴.
+  const indexOfStacked = (curPage - 1) * todosPerPage; // (1-1) * 4 = 0
   const indexOfLastTodos = curPage * todosPerPage; // 1 * 4 = 4
   const indexOfFirstTodos = indexOfLastTodos - todosPerPage; // 4 - 4 = 0
-  const currentTodos = todos.slice(indexOfFirstTodos, indexOfLastTodos); 
+  let currentTodos = todos.slice(indexOfFirstTodos, indexOfLastTodos); 
+  const searchedTodos = 1;
   const paginate = (pageNumber) => setCurPage(pageNumber);
+
+  const searchTodo = (keyword, event) => {
+    // splitTodos : todos 배열의 todo 값을 분해해서 넣어둔 배열
+    let splitTodos = [];
+    todos.map((item) => {
+      splitTodos.push(item.todo.replace(/(\s*)/g, "").split(''))
+    })
+    // searchKey
+    const searchKey = keyword.split('');
+
+    let freqIndex = new Array(todos.length).fill(0);
+    splitTodos.map((todo_arr, index) => {
+      // Array.filter() : 조건에 맞는 배열을 반환해준다.
+      todo_arr.filter((word) => {
+        searchKey.map((key_word) => {
+          word == key_word
+          ? freqIndex[index] ++
+          : null
+        })
+      })
+    })
+    // console.log(freqIndex.indexOf(Math.max(...freqIndex)))
+    return freqIndex.indexOf(Math.max(...freqIndex))
+  }
+
+  // 찾는 값이 렌더링 되도록 하려면?
+  useEffect(() => {
+    // effect
+    setTodos(todos);
+    return () => {
+      // cleanup
+    }
+  }, [currentTodos])
 
   return (
     <div className="App">
       <header>
         <h1>Todo List😊</h1>
         <p>made by sinri</p>
+        <Popup 
+          popup={popup}
+          setPopup={setPopup}
+          message={popupMessage}
+        />
       </header>
       <Form className="d-flex search">
         <FormControl
           placeholder="Search"
           className="me-2"
+          onChange={(event) => {
+            let index = searchTodo(event.target.value, event);
+            console.log(index)
+            currentTodos = todos.slice(index, index+3)
+          }}
+          onKeyPress={(event) => event.preventDefault()}
         />
       </Form>
 
@@ -67,7 +113,14 @@ function App() {
             todos={todos} 
             setTodos={setTodos}
           />
-          <TodoList url={url} currentTodos={currentTodos} loading={loading} todos={todos}></TodoList>
+          <TodoList 
+            url={url} 
+            currentTodos={currentTodos} 
+            loading={loading} 
+            indexOfStacked={indexOfStacked}
+            setPopup={setPopup}
+            setPopupMessage={setPopupMessage}
+            ></TodoList>
           <Pagination 
             perPage={todosPerPage} 
             totalPage={todos.length} 
@@ -76,11 +129,10 @@ function App() {
         </Route>
 
         <Route path='/detail/'>
-          <Detail todos={todos} />
+          <Detail todos={todos} indexOfStacked={indexOfStacked} />
         </Route>
 
       </Switch>
-
     </div>
   );
 }

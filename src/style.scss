@@ -1,4 +1,13 @@
 $maincolor : blueviolet;
+@keyframes slideup {
+  from{
+    transform: translateY(-10px);
+    opacity: 0;
+  }to{
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
 
 :root{
   font-size: 10px;
@@ -20,6 +29,20 @@ header{
   }
   p{
     font-size: 2rem;
+  }
+  .popup{
+    height: 2rem;
+    span{
+      display: inline-block;
+      width: 50%;
+      color: white;
+      background-color: $maincolor;
+    }
+    animation-name: slideup;
+    animation-timing-function: ease-in;
+    animation-duration: .3s;
+    transition: all .3s;
+    // animation-fill-mode: backwards;
   }
 }
 
