@@ -1,0 +1,56 @@
+// night mode를 위한 stylesheet
+$nightbg :#292031;
+$maincolor : blueviolet;
+
+.mode-button{
+  padding: .5em .5em;
+  margin-bottom: 1em;
+  color: white;
+  background-color: $nightbg;
+  border-radius: 1rem;
+  transition: all .3s;
+}
+.mode-button:hover,
+.mode-button[mode='day']:hover{
+  background-color: $maincolor;
+}
+.mode-button[mode='day']{
+  color: black;
+  background-color: antiquewhite;
+}
+
+#root, .App{
+  height: 100%;
+}
+.App[mode='night']{
+  color: aliceblue;
+  background-color: $nightbg;
+  form{
+    input{
+      background-color: $nightbg;
+      color: white;
+    }
+  }
+  .list-group{
+    li {
+      button{
+        color: aliceblue;
+      }
+      .delete{
+        background-color: black;
+        border-color: black;
+      }
+      .delete:hover{
+        background-color: red;
+      }
+    }
+  }
+  .detail-box{
+    button{
+      color: white;
+    }
+    button:hover{
+      background-color: $maincolor;
+    }
+  }
+}

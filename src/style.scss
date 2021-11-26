@@ -11,6 +11,8 @@ $maincolor : blueviolet;
 
 :root{
   font-size: 10px;
+  height: 100%;
+
 }
 *{
   padding: 0;
@@ -20,6 +22,11 @@ $maincolor : blueviolet;
 body{
   font-family: consolas;
   font-size: 1.4rem;
+  height: 100%;
+}
+button{
+  border: none;
+  border-radius: 1em;
 }
 header{
   padding-top: 2rem;

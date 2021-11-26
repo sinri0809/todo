@@ -1,17 +1,19 @@
 /* eslint-disable */
+import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 import './../style.scss';
 
-// function Detail(props){
-const Detail = ({todos}) => {
+const Detail = ({todos, url}) => {
   let history = useHistory();
+  const [contents, setContents] = useState("");
   // index 뽑아내기 
   // console.log(history.location.pathname.split('/').pop());
   let order = history.location.pathname.split('/').pop();
   order = parseInt(order);
-
+  const url_index = `${url}/${order}`
   const todoDetail = todos[order];
 
   return(
@@ -20,10 +22,11 @@ const Detail = ({todos}) => {
         <h4 className="text-left mb-5">
           {todoDetail.todo}
         </h4>
-
         <textarea 
           className="textbox"
-          onKeyPress={(e) => upload(e)}
+          onClick={(event) => event.target.value=''}
+          onChange={(event) => setContents(event.target.value)}
+          onKeyPress={(event) => upload(event, contents, url_index)}
           placeholder={todoDetail.todoContents}
           ></textarea>
 
@@ -37,16 +40,26 @@ const Detail = ({todos}) => {
         // hook을 넣은 것입니다.
         history.push('/');
       }}>back</Button>
-      <Button variant="dark">upload</Button>
+      <Button variant="dark"
+        onClick={(event) => upload(event, contents, url_index)}
+      >upload</Button>
     </section>
   )
 }
 // when enter upload data
 // to todo contents
-function upload(e){
-  if(e.key === "Enter"){
+function upload(event, contents, url_index){
+
+  if(event.key === "Enter"){
     console.log("enter");
+    console.error(contents);
+    patchJSON(url_index, contents)
   }
 }
-
+const patchJSON = (url_index, contents) => {
+  axios.patch(url_index, {todoContents : contents})
+  .then(() => {
+    console.log("patched");
+  })
+}
 export default Detail;

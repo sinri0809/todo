@@ -10,6 +10,7 @@ import Pagination from './components/Pagination';
 import Detail from './components/Detail';
 import Popup from './components/Popup';
 import './style.scss';
+import './dark.scss';
 import axios from 'axios';
 
 const url = "http://localhost:4000/todo";
@@ -41,6 +42,10 @@ function App() {
     return ;
   }, []);
 
+  // day night 모드 설정하고 클래스? 추가?? 
+  const [mode, setMode] = useState('🌙night');
+  const [modeSwitch, setModeSwitch] = useState(false);
+
   // (curPage-1)*todosPerPage + index  => 진짜 index가져옴.
   const indexOfStacked = (curPage - 1) * todosPerPage; // (1-1) * 4 = 0
   const indexOfLastTodos = curPage * todosPerPage; // 1 * 4 = 4
@@ -49,7 +54,7 @@ function App() {
   const searchedTodos = 1;
   const paginate = (pageNumber) => setCurPage(pageNumber);
 
-  const searchTodo = (keyword, event) => {
+  const searchTodo = (keyword) => {
     // splitTodos : todos 배열의 todo 값을 분해해서 넣어둔 배열
     let splitTodos = [];
     todos.map((item) => {
@@ -74,19 +79,27 @@ function App() {
   }
 
   // 찾는 값이 렌더링 되도록 하려면?
-  useEffect(() => {
-    // effect
-    setTodos(todos);
-    return () => {
-      // cleanup
-    }
-  }, [currentTodos])
-
   return (
-    <div className="App">
+    <div className="App"
+      mode = {modeSwitch ? 'night' : 'day'}
+    >
+
       <header>
         <h1>Todo List😊</h1>
         <p>made by sinri</p>
+        <button 
+          className="mode-button"
+          onClick={(event) => {
+            if(modeSwitch){
+              setMode('🌙night');
+              setModeSwitch(false);
+            }else{
+              setMode('🌈day')
+              setModeSwitch(true);
+            }
+          }}
+          mode = {modeSwitch ? 'day' : 'night'}
+        >{mode}</button>
         <Popup 
           popup={popup}
           setPopup={setPopup}
@@ -98,8 +111,7 @@ function App() {
           placeholder="Search"
           className="me-2"
           onChange={(event) => {
-            let index = searchTodo(event.target.value, event);
-            console.log(index)
+            let index = searchTodo(event.target.value);
             currentTodos = todos.slice(index, index+3)
           }}
           onKeyPress={(event) => event.preventDefault()}
@@ -129,9 +141,12 @@ function App() {
         </Route>
 
         <Route path='/detail/'>
-          <Detail todos={todos} indexOfStacked={indexOfStacked} />
+          <Detail 
+            todos={todos} 
+            // indexOfStacked={indexOfStacked} 
+            url={url}
+          />
         </Route>
-
       </Switch>
     </div>
   );

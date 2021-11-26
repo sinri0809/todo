@@ -79,7 +79,7 @@ const patchJSON = (url, index, completed) => {
 }
 
 function deleteJSON(url, index){
-  let delete_url = url + '/' + index;
+  const delete_url = url + '/' + index;
   axios.delete(delete_url)
   .then((response) => {
     console.log("succeed to delete");

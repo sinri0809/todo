@@ -10,7 +10,7 @@
     {
       "id": 1,
       "todo": "화요일 할 일",
-      "todoContents": "",
+      "todoContents": "화요일 할일 입니다.",
       "completed": true,
       "date": "0000-00-00"
     },
@@ -18,7 +18,7 @@
       "id": 2,
       "todo": "수요일 할 일",
       "todoContents": "",
-      "completed": false,
+      "completed": true,
       "date": "0000-00-00"
     },
     {
@@ -45,7 +45,7 @@
     {
       "id": 6,
       "todo": "오늘 할 일",
-      "todoContents": "",
+      "todoContents": "투두 완성하기",
       "completed": true,
       "date": "2021-10-4"
     }

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Form, FormControl, Button } from "react-bootstrap";
 import axios from "axios";
 
-
 const AddTodo = ({url, todos, setTodos}) => {
 
   const nextIndex = todos.length;
@@ -17,7 +16,6 @@ const AddTodo = ({url, todos, setTodos}) => {
           const newTodo = makeTodo(nextIndex, inputNow);
           postJSON(url, newTodo)
           setTodos(todos.concat(newTodo))
-          // console.log(todos.concat(newTodo));
         }
       }}
     />

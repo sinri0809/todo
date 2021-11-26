@@ -1,7 +1,14 @@
+$maincolor : blueviolet;
 .todolist{
+  span{
+    background: none;
+  }
   .checkbox{
     border: none;
     background-color: slategray;
+  }
+  .checkbox:checked{
+    background-color: $maincolor;
   }
   .btn{
     font-size: 1.4rem;
